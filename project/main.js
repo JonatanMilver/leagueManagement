@@ -1,5 +1,5 @@
 //#region global imports
-const DButils = require("./routes/utils/DButils");
+const DButils = require("./DataAccess/DButils");
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
@@ -34,10 +34,6 @@ app.use(express.static(path.join(__dirname, "public"))); //To serve static files
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("dist"));
 
-app.get("/api", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
 const corsConfig = {
   origin: true,
   credentials: true,
@@ -48,13 +44,13 @@ app.options("*", cors(corsConfig));
 
 const port = process.env.PORT || "3000";
 
-const auth = require("./routes/auth");
-const users = require("./routes/users");
-const league = require("./routes/league");
-const teams = require("./routes/teams");
-const games = require("./routes/games");
-const players = require("./routes/player");
-const admins = require("./routes/admins");
+const auth = require("./Domain/login");
+// const users = require("./routes/users");
+// const league = require("./routes/league");
+// const teams = require("./routes/teams");
+// const games = require("./routes/games");
+// const players = require("./routes/player");
+// const admins = require("./routes/admins");
 
 
 //#endregion
@@ -80,12 +76,12 @@ app.use(function (req, res, next) {
 app.get("/alive", (req, res) => res.send("I'm alive"));
 
 // Routings
-app.use("/users", users);
-app.use("/league", league);
-app.use("/teams", teams);
-app.use("/games", games);
-app.use("/players", players);
-app.use("/admins", admins);
+// app.use("/users", users);
+// app.use("/league", league);
+// app.use("/teams", teams);
+// app.use("/games", games);
+// app.use("/players", players);
+// app.use("/admins", admins);
 app.use(auth);
 
 app.use(function (err, req, res, next) {

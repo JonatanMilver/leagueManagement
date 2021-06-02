@@ -1,4 +1,4 @@
-const DButils = require("./DButils");
+const DButils = require("../../DataAccess/DButils");
 const users_utils = require("./users_utils");
 const game_utils = require("./game_utils");
 

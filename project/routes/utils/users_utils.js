@@ -1,4 +1,4 @@
-const DButils = require("./DButils");
+const DButils = require("../../DataAccess/DButils");
 
 async function markPlayerAsFavorite(user_id, player_id) {
   await DButils.execQuery(
