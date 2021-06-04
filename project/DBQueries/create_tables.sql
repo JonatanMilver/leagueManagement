@@ -7,14 +7,14 @@ GO
 CREATE TABLE dbo.Users
 (
     -- primary key column
-    user_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    userId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     username [NVARCHAR](50) NOT NULL UNIQUE,
-    first_name [NVARCHAR](50) NOT NULL,
-    last_name [NVARCHAR](50) NOT NULL,
+    firstName [NVARCHAR](50) NOT NULL,
+    lastName [NVARCHAR](50) NOT NULL,
     country [NVARCHAR](50),
     pswd [NVARCHAR](MAX) NOT NULL,
     email [NVARCHAR](50) NOT NULL,
-    img_url [NVARCHAR](MAX),
+    imgUrl [NVARCHAR](MAX),
     favourites INT
 );
 GO
@@ -27,9 +27,9 @@ GO
 -- Create the table in the specified schema
 CREATE TABLE dbo.Referees
 (
-    referee_id INT NOT NULL PRIMARY KEY,
-    first_name [NVARCHAR](50) NOT NULL,
-    last_name [NVARCHAR](50) NOT NULL,
+    refereeId INT NOT NULL PRIMARY KEY,
+    firstName [NVARCHAR](50) NOT NULL,
+    lastName [NVARCHAR](50) NOT NULL,
     age INT NOT NULL
 );
 GO
@@ -43,14 +43,14 @@ GO
 CREATE TABLE dbo.Games
 (
     -- primary key column
-    game_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-    home_team INT NOT NULL,
-    away_team INT NOT NULL,
-    game_date_time DATETIME NOT NULL,
+    gameId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    homeTeam INT NOT NULL,
+    awayTeam INT NOT NULL,
+    gameDateTime DATETIME NOT NULL,
     field [NVARCHAR](50) NOT NULL,
-    home_team_score INT,
-    away_team_score INT,
-    referee_name [NVARCHAR](50) NOT NULL 
+    homeTeamScore INT,
+    awayTeamScore INT,
+    refereeName [NVARCHAR](50) NOT NULL 
 );
 GO
 
@@ -65,7 +65,7 @@ CREATE TABLE dbo.AssociationRepresentative
 (
     AssociationRepresentativeId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     -- primary key column
-    userId INT FOREIGN KEY REFERENCES Users(user_id),
+    userId INT FOREIGN KEY REFERENCES Users(userId),
 );
 GO
 
@@ -80,7 +80,7 @@ CREATE TABLE dbo.Admins
 (
     adminId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     -- primary key column
-    userId INT FOREIGN KEY REFERENCES Users(user_id),
+    userId INT FOREIGN KEY REFERENCES Users(userId),
     -- specify more columns here
 );
 GO
@@ -94,9 +94,67 @@ GO
 -- Create the table in the specified schema
 CREATE TABLE dbo.UsersFavoriteGames
 (
-    user_id INT NOT NULL ,
-    game_id INT NOT NULL,
-    PRIMARY KEY(user_id, game_id)
+    userId INT NOT NULL ,
+    gameId INT NOT NULL,
+    PRIMARY KEY(userId, gameId)
+    -- specify more columns here
+);
+GO
+
+-- Create a new table called 'GamePolicy' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.GamePolicy', 'U') IS NOT NULL
+DROP TABLE dbo.GamePolicy
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.GamePolicy
+(
+    GamePolicyId INT NOT NULL PRIMARY KEY, -- primary key column
+    title [NVARCHAR](50) NOT NULL,
+    description [NVARCHAR](70) NOT NULL
+    -- specify more columns here
+);
+GO
+
+-- Create a new table called 'League' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.League', 'U') IS NOT NULL
+DROP TABLE dbo.League
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.League
+(
+    LeagueId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    LeagueName [NVARCHAR](50) NOT NULL
+);
+GO
+
+-- Create a new table called 'Season' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.Season', 'U') IS NOT NULL
+DROP TABLE dbo.Season
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.Season
+(
+    SeasonId INT NOT NULL PRIMARY KEY, -- primary key column
+    LeagueId INT NOT NULL FOREIGN KEY REFERENCES League(LeagueId),
+    GamePolicyId INT FOREIGN KEY REFERENCES GamePolicy(GamePolicyId)
+    -- specify more columns here
+);
+GO
+
+-- Create a new table called 'SeasonReferees' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.SeasonReferees', 'U') IS NOT NULL
+DROP TABLE dbo.SeasonReferees
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.SeasonReferees
+(
+    RefereeId INT NOT NULL FOREIGN KEY REFERENCES Referees(RefereeId), -- primary key column
+    SeasonId INT NOT NULL FOREIGN KEY REFERENCES Season(SeasonId),
+    Column2 [NVARCHAR](50) NOT NULL
     -- specify more columns here
 );
 GO
