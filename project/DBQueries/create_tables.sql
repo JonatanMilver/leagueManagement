@@ -27,32 +27,14 @@ GO
 -- Create the table in the specified schema
 CREATE TABLE dbo.Referees
 (
-    refereeId INT NOT NULL PRIMARY KEY,
-    firstName [NVARCHAR](50) NOT NULL,
-    lastName [NVARCHAR](50) NOT NULL,
-    age INT NOT NULL
+    refereeId INT IDENTITY(1,1) PRIMARY KEY,
+    userId INT NOT NULL FOREIGN KEY REFERENCES Users(userId),
+    qualification [NVARCHAR](50) NOT NULL,
+    isHeadReferee BIT NOT NULL,
 );
 GO
 
--- -- -- Create a new table called 'Games' in schema 'dbo'
--- -- -- Drop the table if it already exists
-IF OBJECT_ID('dbo.Games', 'U') IS NOT NULL
-DROP TABLE dbo.Games
-GO
--- Create the table in the specified schema
-CREATE TABLE dbo.Games
-(
-    -- primary key column
-    gameId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-    homeTeam INT NOT NULL,
-    awayTeam INT NOT NULL,
-    gameDateTime DATETIME NOT NULL,
-    field [NVARCHAR](50) NOT NULL,
-    homeTeamScore INT,
-    awayTeamScore INT,
-    refereeName [NVARCHAR](50) NOT NULL 
-);
-GO
+
 
 
 -- Create a new table called 'AssociationRepresentative' in schema 'dbo'
@@ -137,10 +119,31 @@ GO
 -- Create the table in the specified schema
 CREATE TABLE dbo.Season
 (
-    SeasonId INT NOT NULL PRIMARY KEY, -- primary key column
+    SeasonId INT IDENTITY(1,1) PRIMARY KEY, -- primary key column
     LeagueId INT NOT NULL FOREIGN KEY REFERENCES League(LeagueId),
     GamePolicyId INT FOREIGN KEY REFERENCES GamePolicy(GamePolicyId)
     -- specify more columns here
+);
+GO
+
+-- -- -- Create a new table called 'Games' in schema 'dbo'
+-- -- -- Drop the table if it already exists
+IF OBJECT_ID('dbo.Games', 'U') IS NOT NULL
+DROP TABLE dbo.Games
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.Games
+(
+    -- primary key column
+    gameId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    homeTeam INT NOT NULL,
+    awayTeam INT NOT NULL,
+    gameDateTime DATETIME NOT NULL,
+    field [NVARCHAR](50) NOT NULL,
+    homeTeamScore INT,
+    awayTeamScore INT,
+    refereeId INT REFERENCES Referees(refereeId),
+    seasonId INT NOT NULL REFERENCES Season(SeasonId)
 );
 GO
 
@@ -154,7 +157,6 @@ CREATE TABLE dbo.SeasonReferees
 (
     RefereeId INT NOT NULL FOREIGN KEY REFERENCES Referees(RefereeId), -- primary key column
     SeasonId INT NOT NULL FOREIGN KEY REFERENCES Season(SeasonId),
-    Column2 [NVARCHAR](50) NOT NULL
-    -- specify more columns here
+    PRIMARY KEY(RefereeId, SeasonId)
 );
 GO
