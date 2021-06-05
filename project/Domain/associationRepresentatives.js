@@ -1,3 +1,7 @@
+const users_utils = require("../DataAccess/users_utils");
+const associationRepresentativesUtils = require("../DataAccess/associationRepresentativeUtils")
+const league_utils = require("../DataAccess/league_utils")
+var bcrypt = require("bcryptjs")
 
 
 function addGame(){
@@ -26,22 +30,64 @@ function setGameScoringPolicy(){
     // can set score policy
 }
 
-function addReferee(userID){
-    // *******************TO DO TOMER*******************
-    // check if user exist in users table
-    // add to table referees row.
-    // each row contains refereeID (Auto increment) and userID
+async function addReferee(username, qualification, isHeadReferee){
+    const user = await users_utils.checkIfUserExist(username);
+    if (!user){
+        throw { status: 404, message: "User not found"};
+    }
+    const ifRefExist = await associationRepresentativesUtils.checkIfRefExist(user.userId);
+    if (ifRefExist){
+        throw { status: 409, message: "Referee already exist"};
+    }
+
+    refID = await associationRepresentativesUtils.insertReferee(user.userId, qualification, isHeadReferee);
+    return refID;
 }
 
 function removeReferee(refereeID){
     // can remove referee from table
 }
 
-function addRefereeToSeason(refereeID, seasonID){
-    // *******************TO DO TOMER*******************
+async function addRefereeToSeason(refereeID, seasonID){
     // add to table SeasonReferees row of refereeID and seasonID
+    const ifRefExist = await associationRepresentativesUtils.checkIfRefExist(refereeID);
+    if (!ifRefExist){
+        throw { status: 404, message: "Referee Not Exist"};
+    }
+    const ifSeasonExist = await league_utils.checkIfSeasonExist(seasonID);
+    if (!ifSeasonExist){
+        throw { status: 404, message: "Season Not Found"};
+    }
+    const ifRefalreadyInSeason = await league_utils.checkIfRefInSeason(refereeID, seasonID);
+    if (ifRefalreadyInSeason){
+        throw { status: 409, message: "The referee already in this season"};
+    }
+    return await associationRepresentativesUtils.addRefereeToSeason(refereeID, seasonID);
 }
 
 function addLeague(){
     // can add league to system
 }
+
+function getUsersFromAssRepTable(){
+    return associationRepresentativesUtils.getUsersFromAssRepTable();
+}
+
+async function registerReferee(username, password, firstName, lastName, country, email, image){
+    const user = await users_utils.checkIfUserExist(username);
+    if (user){
+        throw { status: 400, message: "User already exist"};
+    }
+    //hash the password
+    let hash_password = bcrypt.hashSync(
+        password,
+        parseInt("2")
+      );
+
+    return await associationRepresentativesUtils.registerReferee(username, hash_password, firstName, lastName, country, email, image);
+}
+
+exports.addRefereeToSeason = addRefereeToSeason;
+exports.registerReferee = registerReferee;
+exports.getUsersFromAssRepTable = getUsersFromAssRepTable;
+exports.addReferee = addReferee;
