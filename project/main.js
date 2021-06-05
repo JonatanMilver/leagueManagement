@@ -76,6 +76,8 @@ app.use(function (req, res, next) {
 // ----> For cheking that our server is alive
 app.get("/alive", (req, res) => res.send("I'm alive"));
 
+app.get("/test", async (req, res) => res.status(200).send("test!"));
+
 // Routings
 // app.use("/users", users);
 // app.use("/league", league);
@@ -91,9 +93,11 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500).send(err.message);
 });
 
-const server = app.listen(port, () => {
-  console.log(`Server listen on port ${port}`);
-});
+// const server = app.listen(port, () => {
+//   console.log(`Server listen on port ${port}`);
+// });
+
+module.exports = app;
 
 // process.on("SIGINT", function () {
 //   if (server) {
