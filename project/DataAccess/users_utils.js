@@ -1,4 +1,4 @@
-const DButils = require("../../DataAccess/DButils");
+const DButils = require("./DButils");
 
 async function markPlayerAsFavorite(user_id, player_id) {
   await DButils.execQuery(
@@ -35,14 +35,11 @@ async function getFavoriteGames(user_id) {
   return game_ids;
 }
 
-async function checkIfUserExist(userID){
+async function checkIfUserExist(username){
   const user = await DButils.execQuery(
-    `SELECT * FROM dbo.users WHERE userID ='${userID}'`
+    `SELECT * FROM dbo.users WHERE username ='${username}'`
   );
-  if (user.length == 0){
-    return false;
-  }
-  return true;
+  return user[0];
 }
 
 exports.checkIfUserExist = checkIfUserExist;
