@@ -1,6 +1,6 @@
-let player = {
-    birthDate: date,
-    position: Int,
+let coach = {
+    qualification: String,
+    isHeadCoachn: Boolean,
     personalPage: Object,
     team: Object
 };
