@@ -44,7 +44,8 @@ app.options("*", cors(corsConfig));
 
 const port = process.env.PORT || "3000";
 
-const auth = require("./Domain/login");
+const auth = require("./Service/loginUser");
+const assRep = require("./Service/associationRepresentative");
 // const users = require("./routes/users");
 // const league = require("./routes/league");
 // const teams = require("./routes/teams");
@@ -58,7 +59,7 @@ const auth = require("./Domain/login");
 //#region cookie middleware
 app.use(function (req, res, next) {
   if (req.session && req.session.user_id) {
-    DButils.execQuery("SELECT user_id FROM users")
+    DButils.execQuery("SELECT userId FROM users")
       .then((users) => {
         if (users.find((x) => x.user_id === req.session.user_id)) {
           req.user_id = req.session.user_id;
@@ -82,6 +83,7 @@ app.get("/alive", (req, res) => res.send("I'm alive"));
 // app.use("/games", games);
 // app.use("/players", players);
 // app.use("/admins", admins);
+app.use("/associationrepresentative", assRep);
 app.use(auth);
 
 app.use(function (err, req, res, next) {
