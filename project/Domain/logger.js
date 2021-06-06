@@ -1,3 +1,5 @@
+// interface Singleton
+
 let logger = {
     system : object
 };

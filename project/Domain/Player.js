@@ -2,7 +2,8 @@ let player = {
     birthDate: date,
     position: Int,
     personalPage: Object,
-    team: Object
+    team: Object,
+    addedByTeamOwnerOrManager: Object
 };
 
 async function addPersonalContent(content){

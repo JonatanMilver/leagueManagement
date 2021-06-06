@@ -1,4 +1,7 @@
 
+let guest = {
+    userHandler: object
+};
 
 async function register(){
     // register a guest to the system and create a new user for him.

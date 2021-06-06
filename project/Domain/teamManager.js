@@ -1,5 +1,6 @@
 let teamManager = {
-    team: Object
+    team: Object,
+    appointedRoles: Arreay
 };
 
 
@@ -42,5 +43,5 @@ async function closeTeam(){
 async function reopenTeam(){
 }
 
-async function financialRecord(){
+async function addFinancialRecord(){
 }

@@ -1,5 +1,5 @@
 let game = {
-    date: Date,
+    gameDateTime: Date,
     homeTeam: Object,
     awayTeam: Object,
     field: String,
