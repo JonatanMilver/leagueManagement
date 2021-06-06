@@ -41,7 +41,7 @@ async function checkGameAddition(homeTeam, awayTeam, checkPolicy, seasonId){
     switch(checkPolicy.GamePolicyId){
         case 1: //For policy 1 - check it's rules.
             answer = await ap_utils.checkOneGamePolicy(homeTeam, awayTeam, seasonId);
-            console.log(answer)
+            // console.log(answer)
             break;
         case 2: //For policy 2 - check it's rules.
             answer = await ap_utils.checkTwoGamePolicy(homeTeam, awayTeam, seasonId);
@@ -111,4 +111,5 @@ function addLeague(){
 
 
 exports.setGameSchedulingPolicy = setGameSchedulingPolicy;
+exports.checkGameAddition = checkGameAddition //exported for testing!
 exports.addGame = addGame;

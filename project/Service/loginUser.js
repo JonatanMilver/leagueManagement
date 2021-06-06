@@ -1,5 +1,6 @@
 var express = require("express");
-var authAccess = require("../DataAccess/authAccess");
+var userDomain = require("../Domain/user");
+var DButils = require("../DataAccess/DButils");
 var router = express.Router();
 var bcrypt = require("bcryptjs")
 
@@ -18,14 +19,14 @@ router.post("/Register", async (req, res, next) => {
       //hash the password
       let hash_password = bcrypt.hashSync(
         req.body.password,
-        parseInt(process.env.bcrypt_saltRounds)
+        parseInt("2")
       );
       req.body.password = hash_password;
   
       // add the new username
       await DButils.execQuery(
-        `INSERT INTO dbo.Users (username, first_name, last_name, pswd, email) VALUES
-         ('${req.body.username}', '${req.body.first_name}', '${req.body.last_name}', '${hash_password}', '${req.body.email}')`
+        `INSERT INTO dbo.Users (username, firstName, lastName, pswd, email) VALUES
+         ('${req.body.username}', '${req.body.firstName}', '${req.body.lastName}', '${hash_password}', '${req.body.email}')`
       );
       res.status(201).send("user created");
     } catch (error) {
@@ -35,14 +36,17 @@ router.post("/Register", async (req, res, next) => {
 
 router.post("/Login", async (req, res, next) => {
     try {
-      const user = await authAccess.getUserByUserName(req.body.username);
+      if(!req.body.username || !req.body.password){
+        throw{status: 409, message: "Missing arguments"};
+      }
+      const user = await userDomain.logInUser(req.body.username, req.body.password);
   
       // check that username exists & the password is correct
     //   if (!user || !bcrypt.compareSync(req.body.password, user.pswd)) {
       if (!user) {
-        // throw { status: 401, message: "Username or Password incorrect" };
-        res.status(401).send("Username or Password incorrect");
-        return
+        throw { status: 401, message: "Username or Password incorrect" };
+        // res.status(401).send("Username or Password incorrect");
+        // return
       }
   
       // Set cookie
