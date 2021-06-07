@@ -4,35 +4,59 @@ var DButils = require("../DataAccess/DButils");
 var router = express.Router();
 var bcrypt = require("bcryptjs")
 
-router.post("/Register", async (req, res, next) => {
-    try {
-      // parameters exists
-      // valid parameters
-      // username exists
-      const users = await DButils.execQuery(
-        "SELECT username FROM dbo.Users"
-      );
-  
-      if (users.find((x) => x.username === req.body.username))
-        throw { status: 409, message: "Username taken" };
-  
-      //hash the password
-      let hash_password = bcrypt.hashSync(
-        req.body.password,
-        parseInt("2")
-      );
-      req.body.password = hash_password;
-  
-      // add the new username
-      await DButils.execQuery(
-        `INSERT INTO dbo.Users (username, firstName, lastName, pswd, email) VALUES
-         ('${req.body.username}', '${req.body.firstName}', '${req.body.lastName}', '${hash_password}', '${req.body.email}')`
-      );
-      res.status(201).send("user created");
-    } catch (error) {
+
+
+/**
+ * register a new user to the system.
+ * can be used by Association Representative to create a user and then appoint him to referee
+ */
+ router.post("/registerUser", async (req, res, next) => {
+  try{
+      const {username, password, firstName, lastName, email} = req.body;
+      if (username == undefined || password == undefined || firstName == undefined || lastName == undefined || email == undefined){
+          throw {status: 400, message: "Missing one or more parameters"};
+      }
+      const suc = await userDomain.registerUser(username, password, firstName, lastName, email);
+      if (suc){
+          res.status(201).send("User created successfully");
+      }
+  }
+  catch(error){
       next(error);
-    }
-  });
+  }
+})
+
+
+// to delete !
+// router.post("/Register", async (req, res, next) => {
+//     try {
+//       // parameters exists
+//       // valid parameters
+//       // username exists
+//       const users = await DButils.execQuery(
+//         "SELECT username FROM dbo.Users"
+//       );
+  
+//       if (users.find((x) => x.username === req.body.username))
+//         throw { status: 409, message: "Username taken" };
+  
+//       //hash the password
+//       let hash_password = bcrypt.hashSync(
+//         req.body.password,
+//         parseInt("2")
+//       );
+//       req.body.password = hash_password;
+  
+//       // add the new username
+//       await DButils.execQuery(
+//         `INSERT INTO dbo.Users (username, firstName, lastName, pswd, email) VALUES
+//          ('${req.body.username}', '${req.body.firstName}', '${req.body.lastName}', '${hash_password}', '${req.body.email}')`
+//       );
+//       res.status(201).send("user created");
+//     } catch (error) {
+//       next(error);
+//     }
+//   });
 
 router.post("/Login", async (req, res, next) => {
     try {

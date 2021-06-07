@@ -37,11 +37,20 @@ async function getFavoriteGames(user_id) {
 
 async function checkIfUserExist(username){
   const user = await DButils.execQuery(
-    `SELECT * FROM dbo.users WHERE username ='${username}'`
+    `SELECT * FROM dbo.Users WHERE username ='${username}'`
   );
   return user[0];
 }
 
+async function registerUser(username, password, firstName, lastName, email){
+  await DButils.execQuery(
+      `INSERT INTO dbo.Users (username, firstName, lastName, pswd, email) VALUES ('${username}', '${firstName}', '${lastName}', '${password}', '${email}')`
+  );
+  return true;
+}
+
+
+exports.registerUser = registerUser;
 exports.checkIfUserExist = checkIfUserExist;
 exports.markPlayerAsFavorite = markPlayerAsFavorite;
 exports.getFavoritePlayers = getFavoritePlayers;
