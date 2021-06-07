@@ -11,6 +11,17 @@ async function checkGamePolicy(seasonId, leagueId){
 }
 
 
+async function checkIfTeamExist(teamId){
+    const team = await db_utils.execQuery(
+        `SELECT TeamId FROM Teams WHERE TeamId='${teamId}'`
+    );
+    if(team[0]){
+        return true;
+    }
+    return false;
+}
+
+
 /*
 sets season's game policy if not already set.
 */
@@ -123,3 +134,4 @@ exports.setGamePolicy = setGamePolicy;
 exports.checkOneGamePolicy = checkOneGamePolicy;
 exports.checkTwoGamePolicy = checkTwoGamePolicy;
 exports.addGame = addGame;
+exports.checkIfTeamExist = checkIfTeamExist;
