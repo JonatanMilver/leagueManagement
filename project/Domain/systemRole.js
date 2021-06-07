@@ -1,0 +1,3 @@
+let systemRole = {
+    user: object
+};

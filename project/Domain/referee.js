@@ -1,3 +1,5 @@
+// inherits systemRole
+
 let referee = {
     ualification: string,
     isHeadReferee: Boolean,

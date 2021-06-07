@@ -1,3 +1,5 @@
+// inherits teamRole
+
 let teamOwner = {
     team: Object,
     appointedRoles: Arreay

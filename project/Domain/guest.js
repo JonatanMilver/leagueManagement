@@ -1,4 +1,3 @@
-
 let guest = {
     userHandler: object
 };

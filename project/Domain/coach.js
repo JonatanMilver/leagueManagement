@@ -1,3 +1,5 @@
+// inherits teamRole
+
 let coach = {
     qualification: String,
     isHeadCoachn: Boolean,

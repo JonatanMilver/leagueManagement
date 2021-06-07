@@ -4,6 +4,8 @@ const league_utils = require("../DataAccess/league_utils")
 var bcrypt = require("bcryptjs")
 const ap_utils = require("../DataAccess/associationRepresentativeUtils");
 
+// inherits systemRole
+
 
 /*
 game policies 
