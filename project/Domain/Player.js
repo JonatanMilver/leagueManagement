@@ -1,3 +1,5 @@
+// inherits teamRole
+
 let player = {
     birthDate: date,
     position: Int,
