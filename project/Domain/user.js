@@ -21,6 +21,4 @@ async function logInUser(username, password){
 
 }
 
-
-
 exports.logInUser = logInUser;
