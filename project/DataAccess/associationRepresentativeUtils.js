@@ -1,4 +1,4 @@
-const DButils =  require('./DButils');
+const db_utils =  require('./DButils');
 
 /*
 checks season's game policy at the database.
@@ -24,10 +24,10 @@ async function setGamePolicy(seasonId, leagueId, policyId){
 
 async function insertReferee(userID, qualification, isHeadReferee){
     // TODO - Tomer
-    await DButils.execQuery(
+    await db_utils.execQuery(
         `INSERT INTO dbo.Referees (userId, qualification, isHeadReferee) VALUES ('${userID}', '${qualification}', '${isHeadReferee}')`
     );
-      const refereeID = await DButils.execQuery(
+      const refereeID = await db_utils.execQuery(
         `SELECT refereeId FROM dbo.Referees WHERE userId='${userID}'`
       );
         
@@ -36,7 +36,7 @@ async function insertReferee(userID, qualification, isHeadReferee){
 
 
 async function checkIfRefExist(userId) {
-    const refs = await DButils.execQuery(
+    const refs = await db_utils.execQuery(
         "SELECT userId FROM dbo.Referees" 
     );
     if (refs.find((r) => r.userId === parseInt(userId))){
@@ -46,18 +46,18 @@ async function checkIfRefExist(userId) {
   }
 
 async function getUsersFromAssRepTable(){
-    return DButils.execQuery("SELECT userID FROM dbo.associationRepresentatives");
+    return db_utils.execQuery("SELECT userID FROM dbo.associationRepresentatives");
 }
 
 async function addRefereeToSeason(refereeID, SeasonID){
-    await DButils.execQuery(
+    await db_utils.execQuery(
         `INSERT INTO dbo.SeasonReferees (RefereeId, SeasonId) VALUES ('${refereeID}', '${SeasonID}')`
     );
     return true;
 }
 
 async function registerRefereeAsUser(username, password, firstName, lastName, country, email, image){
-    await DButils.execQuery(
+    await db_utils.execQuery(
         `INSERT INTO dbo.Users (username, firstName, lastName, country, pswd, email, imgUrl) VALUES ('${username}', '${firstName}', '${lastName}', '${country}', '${password}', '${email}', '${image}')`
     );
     return true;
