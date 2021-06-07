@@ -137,22 +137,8 @@ function getUsersFromAssRepTable(){
     return associationRepresentativesUtils.getUsersFromAssRepTable();
 }
 
-async function registerReferee(username, password, firstName, lastName, country, email, image){
-    const user = await users_utils.checkIfUserExist(username);
-    if (user){
-        throw { status: 400, message: "User already exist"};
-    }
-    //hash the password
-    let hash_password = bcrypt.hashSync(
-        password,
-        parseInt("2")
-      );
-
-    return await associationRepresentativesUtils.registerReferee(username, hash_password, firstName, lastName, country, email, image);
-}
 
 exports.addRefereeToSeason = addRefereeToSeason;
-exports.registerReferee = registerReferee;
 exports.getUsersFromAssRepTable = getUsersFromAssRepTable;
 exports.addReferee = addReferee;
 exports.setGameSchedulingPolicy = setGameSchedulingPolicy;

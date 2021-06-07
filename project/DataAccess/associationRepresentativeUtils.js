@@ -23,7 +23,6 @@ async function setGamePolicy(seasonId, leagueId, policyId){
 }
 
 async function insertReferee(userID, qualification, isHeadReferee){
-    // TODO - Tomer
     await db_utils.execQuery(
         `INSERT INTO dbo.Referees (userId, qualification, isHeadReferee) VALUES ('${userID}', '${qualification}', '${isHeadReferee}')`
     );
@@ -55,14 +54,6 @@ async function addRefereeToSeason(refereeID, SeasonID){
     );
     return true;
 }
-
-async function registerRefereeAsUser(username, password, firstName, lastName, country, email, image){
-    await db_utils.execQuery(
-        `INSERT INTO dbo.Users (username, firstName, lastName, country, pswd, email, imgUrl) VALUES ('${username}', '${firstName}', '${lastName}', '${country}', '${password}', '${email}', '${image}')`
-    );
-    return true;
-}
-
 
 
 /*
@@ -113,7 +104,6 @@ async function addGame(homeTeam, awayTeam, gameDateTime, field, refereeId, seaso
     );
 }
 
-exports.registerReferee = registerRefereeAsUser;
 exports.addRefereeToSeason = addRefereeToSeason;
 exports.getUsersFromAssRepTable = getUsersFromAssRepTable;
 exports.checkIfRefExist = checkIfRefExist;
