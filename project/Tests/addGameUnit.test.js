@@ -1,5 +1,5 @@
 const ar = require("../Domain/associationRepresentatives")
-const db_utils = require("../DataAccess/DButils")
+const ar_utils = require("../DataAccess/associationRepresentativeUtils")
 
 
 
@@ -27,14 +27,37 @@ const dummyGames = [
 ]
 
 const successGame =     {
-    homeTeam : 5,
-    awayTeam : 7,
+    homeTeam : 6,
+    awayTeam : 4,
     gameDateTime : "02/03/2021 19:30",
     field : "BS",
     refereeId : 3,
     seasonId : 3,
     leagueId : 1
 }
+
+ar_utils.checkGamePolicy = jest.fn(async (seasonId, leagueId) => {
+    if (seasonId == 2 && leagueId == 1){
+        return {GamePolicyId:1};
+    }
+    else if(seasonId == 3 && leagueId == 1){
+        return {GamePolicyId:2};
+    }
+    else{
+        return undefined;
+    }
+})
+
+ar_utils.addGame = jest.fn(async (homeTeam, awayTeam, gameDateTime, field, refereeId, seasonId) => {
+    return true;
+})
+
+ar_utils.checkIfTeamExist = jest.fn(async (homeTeam) => {
+    if(homeTeam == 1005){
+        return false;
+    }
+    return true;
+})
 
 
 // for(game of dummyGames){
@@ -66,15 +89,5 @@ test("Unsuccessful addition - home team is not in the system.", async () => {
         });
     expect(response).toBe(false);
 })
-// }
 
-// db_utils.execQuery(
-//     `DELETE FROM Games
-//     WHERE homeTeam=1 AND awayTeam=2`
-// );
-
-// db_utils.execQuery(
-//     `DELETE FROM Games
-//     WHERE homeTeam=3 AND awayTeam=4`
-// )
 
