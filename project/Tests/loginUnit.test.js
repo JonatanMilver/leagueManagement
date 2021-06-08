@@ -1,5 +1,5 @@
 const user = require("../Domain/user")
-const userUtils = require("../DataAccess/authAccess")
+const userUtils = require("../DataAccess/users_utils")
 
 const usersPswds = [
     {
@@ -20,7 +20,7 @@ const usernames = ["guyzaid", "galagas", "tomerkel", "milver"]
 
 for(const usern of usernames){
     test("Successful user retrieval from database", async () => {
-        const response = await userUtils.getUserByUserName(usern).then(res => {
+        const response = await userUtils.checkIfUserExist(usern).then(res => {
             return res
         });
         expect(usernames.includes(response.username)).toBe(true);
