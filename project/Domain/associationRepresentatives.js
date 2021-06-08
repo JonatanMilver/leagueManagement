@@ -104,11 +104,12 @@ function setGameScoringPolicy(){
 async function addReferee(username, qualification, isHeadReferee){
     const user = await users_utils.checkIfUserExist(username);
     if (!user){
-        throw new Error({ status: 404, message: "User not found"});
+        throw { status: 404, message: "User not found"};
     }
     const ifRefExist = await associationRepresentativesUtils.checkIfRefExist(user.userId);
     if (ifRefExist){
-        throw new Error({status: 409, message: "Referee already exist"});
+        // throw new Error({status: 409, message: "Referee already exist"});
+        throw {status: 409, message: "Referee already exist"};
     }
 
     const refID = await associationRepresentativesUtils.insertReferee(user.userId, qualification, isHeadReferee);
@@ -123,15 +124,15 @@ async function addRefereeToSeason(refereeID, seasonID){
     // add to table SeasonReferees row of refereeID and seasonID
     const ifRefExist = await associationRepresentativesUtils.checkIfRefExist(refereeID);
     if (!ifRefExist){
-        throw new Error({status: 404, message: "Referee Not Exist"});
+        throw {status: 404, message: "Referee Not Exist"};
     }
     const ifSeasonExist = await league_utils.checkIfSeasonExist(seasonID);
     if (!ifSeasonExist){
-        throw new Error({status: 404, message: "Season Not Found"})
+        throw {status: 404, message: "Season Not Found"};
     }
     const ifRefalreadyInSeason = await league_utils.checkIfRefInSeason(refereeID, seasonID);
     if (ifRefalreadyInSeason){
-        throw new Error({ status: 409, message: "The referee already in this season"});
+        throw { status: 409, message: "The referee already in this season"};
     }
     const res = await associationRepresentativesUtils.addRefereeToSeason(refereeID, seasonID);
     return res;
