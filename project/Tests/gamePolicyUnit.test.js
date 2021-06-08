@@ -4,7 +4,7 @@ const arUtils = require("../DataAccess/associationRepresentativeUtils")
 
 
 
-test("Sucessful policy set through Data Layer", async () => {
+test("Successful policy set through Data Layer", async () => {
     // await arUtils.setGamePolicy(2,1,1);
     const response = await arUtils.checkGamePolicy(2,1).then(res =>{
         return res
