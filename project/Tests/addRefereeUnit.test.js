@@ -94,7 +94,7 @@ test("failure addition of referee to season - referee not exist", async () => {
 
 
 test("failure addition of referee to season - season not exist", async () => {
-    await ar_domain.addRefereeToSeason(1,0)
+    await ar_domain.addRefereeToSeason(4,0)
     .then().catch(err => {
         expect(err.status).toBe(404);
         expect(err.message).toBe("Season Not Found")
