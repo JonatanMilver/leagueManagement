@@ -96,8 +96,8 @@ describe('/associationrepresentative - middleware', function() {
         
         test("login - unpermited user", async () => {
             response = await farUser.post("/Login").send({
-                username: 'guyzaid',
-                password: 'guyzaid'
+                username: 'tomerkel',
+                password: 'tomerkel'
             });
             expect(response.statusCode).toBe(200);
         })
@@ -123,8 +123,8 @@ describe('POST /associationrepresentative/setGamePolicy', function(){
         describe('Missing arguments', function(){
             test("login - permited user", async () => {
                 response = await farUser.post("/Login").send({
-                    username: 'galagas',
-                    password: 'galagas'
+                    username: 'guyzaid',
+                    password: 'guyzaid'
                 });
                 expect(response.statusCode).toBe(200);
             })
@@ -143,8 +143,8 @@ describe('POST /associationrepresentative/setGamePolicy', function(){
     describe('Policy already set', function(){
         test("login - permited user", async () => {
             response = await farUser.post("/Login").send({
-                username: 'galagas',
-                password: 'galagas'
+                username: 'guyzaid',
+                password: 'guyzaid'
             });
             expect(response.statusCode).toBe(200);
         })
@@ -162,8 +162,8 @@ describe('POST /associationrepresentative/setGamePolicy', function(){
     describe('Successful setting of game policy', function(){
         test("login - permited user", async () => {
             response = await farUser.post("/Login").send({
-                username: 'galagas',
-                password: 'galagas'
+                username: 'guyzaid',
+                password: 'guyzaid'
             });
             expect(response.statusCode).toBe(200);
         })
@@ -184,8 +184,8 @@ describe('POST /associationrepresentative/addGame', function() {
         describe('With permissions', function() {
             test("login - permited user", async () => {
                 response = await farUser.post("/Login").send({
-                    username: 'galagas',
-                    password: 'galagas'
+                    username: 'guyzaid',
+                    password: 'guyzaid'
                 });
                 expect(response.statusCode).toBe(200);
             })
@@ -264,7 +264,7 @@ describe('POST /associationrepresentative/addReferee',function(){
     describe('Referee already exists', function(){
         test('', async () => {
             response = await farUser.post("/associationrepresentative/addReferee").send({
-                username:'galagas',
+                username:'guyzaid',
                 qualification:'international',
                 isHeadReferee:1
             })
@@ -276,7 +276,7 @@ describe('POST /associationrepresentative/addReferee',function(){
     describe('Successful adding of referee', function(){
         test('', async () => {
             response = await farUser.post("/associationrepresentative/addReferee").send({
-                username:'tomerkel',
+                username:'galagas',
                 qualification:'international',
                 isHeadReferee:1
             })
