@@ -126,6 +126,22 @@ CREATE TABLE dbo.Season
 );
 GO
 
+-- Create a new table called 'Teams' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.Teams', 'U') IS NOT NULL
+DROP TABLE dbo.Teams
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.Teams
+(
+    TeamId INT IDENTITY(1,1) NOT NULL PRIMARY KEY, -- primary key column
+    teamName [NVARCHAR](50) NOT NULL,
+    personalPageURL [NVARCHAR](50)
+    -- specify more columns here
+);
+GO
+
+
 -- -- -- Create a new table called 'Games' in schema 'dbo'
 -- -- -- Drop the table if it already exists
 IF OBJECT_ID('dbo.Games', 'U') IS NOT NULL
@@ -136,8 +152,8 @@ CREATE TABLE dbo.Games
 (
     -- primary key column
     gameId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-    homeTeam INT NOT NULL,
-    awayTeam INT NOT NULL,
+    homeTeam INT NOT NULL FOREIGN KEY REFERENCES Teams(TeamId),
+    awayTeam INT NOT NULL FOREIGN KEY REFERENCES Teams(TeamId),
     gameDateTime DATETIME NOT NULL,
     field [NVARCHAR](50) NOT NULL,
     homeTeamScore INT,

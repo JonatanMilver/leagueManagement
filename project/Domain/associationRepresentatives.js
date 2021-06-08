@@ -28,6 +28,11 @@ async function addGame(homeTeam, awayTeam, gameDateTime, field, refereeId, leagu
 
     // should check the game policy here
     const canGameBeAdded = await checkGameAddition(homeTeam, awayTeam, checkPolicy, seasonId);
+    const homeTeamInDB = await ap_utils.checkIfTeamExist(homeTeam);
+    const awayTeamInDB = await ap_utils.checkIfTeamExist(awayTeam);
+    if(!homeTeamInDB || !awayTeamInDB){
+        return false; //One of the teams doesn't exist in the database.
+    }
     // if game stands at the policy, add it to db
     if(canGameBeAdded){
         await ap_utils.addGame(homeTeam, awayTeam, gameDateTime, field, refereeId, seasonId);
