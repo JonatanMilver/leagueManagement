@@ -11,11 +11,8 @@ CREATE TABLE dbo.Users
     username [NVARCHAR](50) NOT NULL UNIQUE,
     firstName [NVARCHAR](50) NOT NULL,
     lastName [NVARCHAR](50) NOT NULL,
-    country [NVARCHAR](50),
     pswd [NVARCHAR](MAX) NOT NULL,
     email [NVARCHAR](50) NOT NULL,
-    imgUrl [NVARCHAR](MAX),
-    favourites INT
 );
 GO
 
