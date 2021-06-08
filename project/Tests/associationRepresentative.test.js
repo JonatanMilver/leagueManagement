@@ -8,6 +8,7 @@ const league_utils = require('../DataAccess/league_utils')
 jest.setTimeout(30000);
 
 // **************************** MOCK FUNCTIONS ****************************
+//#region 
 ass_rep_utils.checkGamePolicy = jest.fn(async (seasonId, leagueId) => {
     if (seasonId == 2 && leagueId == 1){
         return {GamePolicyId:1};
@@ -39,7 +40,6 @@ ass_rep_utils.checkIfTeamExist = jest.fn(async (team) => {
     return true;
 })
 
-
 ass_rep_utils.checkIfRefExist = jest.fn(async (userId) => {
     if(userId != 3){
         return true;    
@@ -58,9 +58,13 @@ league_utils.checkIfRefInSeason = jest.fn(async (refereeID, seasonID) => {
     return false;
 })
 
+ass_rep_utils.addRefereeToSeason = jest.fn(async (refereeID, seasonID) => {
+    return true;
+})
+//#endregion
 
 // **************************** TEST FUNCTIONS ****************************
-
+//#region 
 describe('/associationrepresentative - middleware', function() {
     describe('User is not logged in', function() {
       
@@ -264,6 +268,7 @@ describe('POST /associationrepresentative/addReferee',function(){
                 qualification:'international',
                 isHeadReferee:1
             })
+            // console.log(response)
             expect(response.statusCode).toBe(409);
             expect(response.text).toBe("Referee already exist")
         })
@@ -313,4 +318,4 @@ describe('POST /associationrepresentative/addRefereeToSeason',function(){
         })
     })
 })
-    
+//#endregion

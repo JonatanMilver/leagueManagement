@@ -112,7 +112,7 @@ async function checkIfRefExist(userId) {
 Get all the Association Representatives from the database
 */
 async function getUsersFromAssRepTable(){
-    return db_utils.execQuery("SELECT userID FROM dbo.associationRepresentatives");
+    return db_utils.execQuery("SELECT userID FROM dbo.associationRepresentative");
 }
 
 /*

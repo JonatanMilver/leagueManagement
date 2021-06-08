@@ -108,7 +108,6 @@ async function addReferee(username, qualification, isHeadReferee){
     }
     const ifRefExist = await associationRepresentativesUtils.checkIfRefExist(user.userId);
     if (ifRefExist){
-        // throw new Error({status: 409, message: "Referee already exist"});
         throw {status: 409, message: "Referee already exist"};
     }
 
