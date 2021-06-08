@@ -104,10 +104,11 @@ router.post('/addGame', async (req, res, next) => {
  */
  router.post("/addReferee", async (req, res, next) => {
   try{
-  const {username, qualification, isHeadReferee} = req.body;
-  if (username == undefined || qualification == undefined || isHeadReferee == undefined){
+    const {username, qualification, isHeadReferee} = req.body;
+    if (username == undefined || qualification == undefined || isHeadReferee == undefined){
       throw {status: 400, message: "Missing one or more parameters"};
-      }
+    }
+
       const refID = await associationRepresentatives.addReferee(username, qualification, isHeadReferee);
       res.status(201).send("Referee added successfully! The referee ID is: "+ refID);
   }
@@ -115,6 +116,7 @@ router.post('/addGame', async (req, res, next) => {
   next(error);
   }
 })
+
 
 /**
  Adds a referee to season.
@@ -124,7 +126,7 @@ router.post('/addGame', async (req, res, next) => {
   try{
       const {refereeID, seasonID} = req.body;
       if (refereeID == undefined || seasonID == undefined){
-          throw {status: 400, message: "Missing one or more parameters"};
+        throw {status: 400, message: "Missing one or more parameters"};
       }
       await associationRepresentatives.addRefereeToSeason(refereeID, seasonID);
       res.status(201).send("Referee added successfully to season");

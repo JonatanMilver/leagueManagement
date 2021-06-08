@@ -33,40 +33,6 @@ async function setGamePolicy(seasonId, leagueId, policyId){
     );
 }
 
-async function insertReferee(userID, qualification, isHeadReferee){
-    await db_utils.execQuery(
-        `INSERT INTO dbo.Referees (userId, qualification, isHeadReferee) VALUES ('${userID}', '${qualification}', '${isHeadReferee}')`
-    );
-      const refereeID = await db_utils.execQuery(
-        `SELECT refereeId FROM dbo.Referees WHERE userId='${userID}'`
-      );
-        
-      return refereeID[0].refereeID;
-}
-
-
-async function checkIfRefExist(userId) {
-    const refs = await db_utils.execQuery(
-        "SELECT userId FROM dbo.Referees" 
-    );
-    if (refs.find((r) => r.userId === parseInt(userId))){
-        return true;
-    }
-    return false;
-  }
-
-async function getUsersFromAssRepTable(){
-    return db_utils.execQuery("SELECT userID FROM dbo.associationRepresentative");
-}
-
-async function addRefereeToSeason(refereeID, SeasonID){
-    await db_utils.execQuery(
-        `INSERT INTO dbo.SeasonReferees (RefereeId, SeasonId) VALUES ('${refereeID}', '${SeasonID}')`
-    );
-    return true;
-}
-
-
 /*
 gets all games of two teams with ids team1, team2 from a specific season with id seasonId.
 */
@@ -114,6 +80,51 @@ async function addGame(homeTeam, awayTeam, gameDateTime, field, refereeId, seaso
         VALUES ('${homeTeam}', '${awayTeam}', '${gameDateTime}', '${field}', '${refereeId}', '${seasonId}')`
     );
 }
+
+/*
+Adds a new referee to the database.
+*/
+async function insertReferee(userID, qualification, isHeadReferee){
+    await db_utils.execQuery(
+        `INSERT INTO dbo.Referees (userId, qualification, isHeadReferee) VALUES ('${userID}', '${qualification}', '${isHeadReferee}')`
+    );
+      const refereeID = await db_utils.execQuery(
+        `SELECT refereeId FROM dbo.Referees WHERE userId='${userID}'`
+      );
+        
+      return refereeID[0].refereeID;
+}
+
+/*
+Check whether the given user is referee
+*/
+async function checkIfRefExist(userId) {
+    const refs = await db_utils.execQuery(
+        "SELECT userId FROM dbo.Referees" 
+    );
+    if (refs.find((r) => r.userId === parseInt(userId))){
+        return true;
+    }
+    return false;
+  }
+
+/*
+Get all the Association Representatives from the database
+*/
+async function getUsersFromAssRepTable(){
+    return db_utils.execQuery("SELECT userID FROM dbo.associationRepresentatives");
+}
+
+/*
+Adds a referee to season
+*/
+async function addRefereeToSeason(refereeID, SeasonID){
+    await db_utils.execQuery(
+        `INSERT INTO dbo.SeasonReferees (RefereeId, SeasonId) VALUES ('${refereeID}', '${SeasonID}')`
+    );
+    return true;
+}
+
 
 exports.addRefereeToSeason = addRefereeToSeason;
 exports.getUsersFromAssRepTable = getUsersFromAssRepTable;

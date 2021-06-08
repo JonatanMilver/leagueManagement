@@ -49,7 +49,6 @@ async function registerUser(username, password, firstName, lastName, email){
   return true;
 }
 
-
 exports.registerUser = registerUser;
 exports.checkIfUserExist = checkIfUserExist;
 exports.markPlayerAsFavorite = markPlayerAsFavorite;

@@ -1,5 +1,4 @@
 const bcrypt = require("bcryptjs");
-const auth_utils = require("../DataAccess/authAccess");
 const users_utils = require("../DataAccess/users_utils")
 
 async function logInUser(username, password){
@@ -13,7 +12,7 @@ async function logInUser(username, password){
 //       );
 
 //     return user.data;
-    const user = await auth_utils.getUserByUserName(username);
+    const user = await users_utils.checkIfUserExist(username);
     if (!user || !bcrypt.compareSync(password, user.pswd)) {
         // throw { status: 401, message: "Username or Password incorrect" };
         return undefined;
