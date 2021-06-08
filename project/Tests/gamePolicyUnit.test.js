@@ -2,15 +2,6 @@ const ar = require("../Domain/associationRepresentatives")
 const arUtils = require("../DataAccess/associationRepresentativeUtils")
 
 
-// unit Testing 18.4
-test("Successful policy set through Data Layer", async () => {
-    // await arUtils.setGamePolicy(2,1,1);
-    const response = await arUtils.checkGamePolicy(2,1).then(res =>{
-        return res
-    });
-    expect(response.GamePolicyId).toBe(1);
-});
-
 arUtils.setGamePolicy = jest.fn(async (seasonId, leagueId, policyId) => {
     //mock of setting policy in DB.
     return;
@@ -26,6 +17,17 @@ arUtils.checkGamePolicy = jest.fn(async (seasonId, leagueId) => {
     }
 
 })
+
+// unit Testing 18.4
+test("Successful policy set through Data Layer", async () => {
+    // await arUtils.setGamePolicy(2,1,1);
+    const response = await arUtils.checkGamePolicy(2,1).then(res =>{
+        return res
+    });
+    expect(response.GamePolicyId).toBe(1);
+});
+
+
 
 arUtils.checkOneGamePolicy = jest.fn(async (homeTeam, awayTeam, seasonId) => {
     if(homeTeam == 13 && awayTeam == 11){
