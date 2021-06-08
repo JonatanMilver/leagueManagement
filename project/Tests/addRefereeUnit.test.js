@@ -4,7 +4,6 @@ const ar_domain = require("../Domain/associationRepresentatives");
 
 
 
-
 // test("successful register user through Data Layer", async() => {
 //     const response = await users_utils.registerUser("shachar", "password", "shachar", "wild", "wildsha@post.bgu.ac.il").then(res => {
 //         return res
@@ -12,17 +11,17 @@ const ar_domain = require("../Domain/associationRepresentatives");
 //     expect(response).toBe(true);
 // })
 
-
-// // // test of associationRepresentativeUtils.js Data Layer in 'addReferee' route
-// test("successful addition of referee to Referees DB", async() => {
-//     const response = await ar_utils.insertReferee(4, "International", true).then(res => {
+// test of associationRepresentativeUtils.js Data Layer in 'addReferee' route
+// test ("successful addition of referee to Referees DB", async() => {
+//     const response = await ar_utils.insertReferee(2, "International", true).then(res => {
 //         return res
 //     });
-//     expect(response).toBe(1);
+//     expect(response).toBe(1)
 // })
 
+
 test ("successful check - if referee exist", async() => {
-    const response = await ar_utils.checkIfRefExist(1).then(res => {
+    const response = await ar_utils.checkIfRefExist(4).then(res => {
         return res
     });
     expect(response).toBe(true)
@@ -35,21 +34,21 @@ test ("failure check - if referee exist", async() => {
     expect(response).toBe(false)
 })
 
-// test ("successful add referee to season", async() => {
-//     const response = await ar_utils.addRefereeToSeason(1,1).then( res => {
-//         return res
-//     });
-//     expect(response).toBe(true)
-// })
+test ("successful add referee to season", async() => {
+    const response = await ar_utils.addRefereeToSeason(1,1).then( res => {
+        return res
+    });
+    expect(response).toBe(true)
+})
 
 
-//tests of associationRepresentative.js Domain Layer in 'addReferee' route
+// tests of associationRepresentative.js Domain Layer in 'addReferee' route
 // integrestion teating
 // test("successful addition of referee to the system", async() => {
-//     const response = await ar_domain.addReferee("shachar", "Master", false).then(res => {
+//     const response = await ar_domain.addReferee("galagas", "Master", false).then(res => {
 //         return res
 //     });
-//     expect(response).toBe(true)
+//     expect(response).toBe(2)
 // })
 
 test("failure addition - referee already exist", async() => {
@@ -69,12 +68,12 @@ test("failure addition - user not exist", async () => {
 })
 
 
-// test("successful addition of referee to season", async() => {
-//     const response = await ar_domain.addRefereeToSeason(4,4).then(res => {
-//         return res
-//     });
-//     expect(response).toBe(true)
-// })
+test("successful addition of referee to season", async() => {
+    const response = await ar_domain.addRefereeToSeason(3,2).then(res => {
+        return res
+    });
+    expect(response).toBe(true)
+})
 
 
 test("failure addition of referee to season - referee already in season", async () => {
@@ -95,7 +94,7 @@ test("failure addition of referee to season - referee not exist", async () => {
 
 
 test("failure addition of referee to season - season not exist", async () => {
-    await ar_domain.addRefereeToSeason(3,0)
+    await ar_domain.addRefereeToSeason(1,0)
     .then().catch(err => {
         expect(err.status).toBe(404);
         expect(err.message).toBe("Season Not Found")
