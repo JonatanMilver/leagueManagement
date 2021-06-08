@@ -45,7 +45,7 @@ async function checkIfRefExist(userId) {
   }
 
 async function getUsersFromAssRepTable(){
-    return db_utils.execQuery("SELECT userID FROM dbo.associationRepresentatives");
+    return db_utils.execQuery("SELECT userID FROM dbo.associationRepresentative");
 }
 
 async function addRefereeToSeason(refereeID, SeasonID){

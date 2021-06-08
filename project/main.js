@@ -89,7 +89,7 @@ app.use("/associationrepresentative", assRep);
 app.use(auth);
 
 app.use(function (err, req, res, next) {
-  console.error(err);
+  // console.error(err);
   res.status(err.status || 500).send(err.message);
 });
 
