@@ -108,7 +108,7 @@ async function addReferee(username, qualification, isHeadReferee){
     }
     const ifRefExist = await associationRepresentativesUtils.checkIfRefExist(user.userId);
     if (ifRefExist){
-        throw new Error({status: 409, message: "Referee already exist"});
+        throw {status: 409, message: "Referee already exist"};
     }
 
     const refID = await associationRepresentativesUtils.insertReferee(user.userId, qualification, isHeadReferee);
@@ -131,7 +131,7 @@ async function addRefereeToSeason(refereeID, seasonID){
     }
     const ifRefalreadyInSeason = await league_utils.checkIfRefInSeason(refereeID, seasonID);
     if (ifRefalreadyInSeason){
-        throw new Error({ status: 409, message: "The referee already in this season"});
+        throw { status: 409, message: "The referee already in this season"};
     }
     const res = await associationRepresentativesUtils.addRefereeToSeason(refereeID, seasonID);
     return res;
