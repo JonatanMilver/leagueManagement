@@ -63,6 +63,25 @@ ar_utils.addGame = jest.fn(async (homeTeam, awayTeam, gameDateTime, field, refer
     return true;
 })
 
+
+/////////////////////////////////// Gal///////////////////////////////
+// unit test
+test("unit test - checkIfTeamExist function", async () => {
+    const response = await ar_utils.checkIfTeamExist(successGame.homeTeam).then(res => {
+            return res;
+        });
+    expect(response).toBe(true);
+})
+
+// unit test
+test("unit test - checkIfTeamExist function", async () => {
+    const response = await ar_utils.checkIfTeamExist(failGame.awayTeam).then(res => {
+            return res;
+        });
+    expect(response).toBe(false);
+})
+/////////////////////////////////////////////////////////////////////
+
 ar_utils.checkIfTeamExist = jest.fn(async (homeTeam) => {
     if(homeTeam == 1005){
         return false;
@@ -71,7 +90,7 @@ ar_utils.checkIfTeamExist = jest.fn(async (homeTeam) => {
 })
 
 //////////////////// Gal ////////////////////////
-//integration test/ unit?
+//integration test! not using mock
 test("integration test - checkGameAddition function", async () => {
     const response = await ar.checkGameAddition(successGame.homeTeam, successGame.awayTeam, 1, successGame.seasonId).then(res => {
             return res;
@@ -82,22 +101,6 @@ test("integration test - checkGameAddition function", async () => {
 //integration test
 test("integration test - checkGameAddition function", async () => {
     const response = await ar.checkGameAddition(failGame.homeTeam, failGame.awayTeam, 3, failGame.seasonId).then(res => {
-            return res;
-        });
-    expect(response).toBe(false);
-})
-
-// unit test
-test("unit test - checkIfTeamExist function", async () => {
-    const response = await ar.checkIfTeamExist(successGame.homeTeam).then(res => {
-            return res;
-        });
-    expect(response).toBe(true);
-})
-
-// unit test
-test("unit test - checkIfTeamExist function", async () => {
-    const response = await ar.checkIfTeamExist(failGame.awayTeam).then(res => {
             return res;
         });
     expect(response).toBe(false);
