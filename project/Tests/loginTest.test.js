@@ -21,12 +21,21 @@ describe('POST /Login', function() {
         expect(response.statusCode).toBe(200);
     })
 
-    test("Unsuccessful login", async () => {
+    test("Unsuccessful login - username does not exist", async () => {
         response = await request(app).post("/Login").send({
             username: 'guyaid',
             password: 'guyzaid'
         });
         expect(response.statusCode).toBe(401);
+    })
+
+    test("Unsuccessful login - missing parameters", async () => {
+        response = await request(app).post("/Login").send({
+            // username: 'guyzaid',
+            password: 'guyzaid'
+        });
+        expect(response.statusCode).toBe(409);
+        expect(response.text).toBe("Missing arguments");
     })
 });
 

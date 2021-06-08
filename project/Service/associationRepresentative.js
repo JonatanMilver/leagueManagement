@@ -108,6 +108,7 @@ router.post('/addGame', async (req, res, next) => {
     if (username == undefined || qualification == undefined || isHeadReferee == undefined){
       throw {status: 400, message: "Missing one or more parameters"};
     }
+
       const refID = await associationRepresentatives.addReferee(username, qualification, isHeadReferee);
       res.status(201).send("Referee added successfully! The referee ID is: "+ refID);
   }
