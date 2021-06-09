@@ -32,11 +32,6 @@ IF OBJECT_ID('dbo.UsersFavoriteGames', 'U') IS NOT NULL
 DROP TABLE dbo.UsersFavoriteGames
 GO
 
--- IF OBJECT_ID('dbo.Events', 'U') IS NOT NULL
--- DROP TABLE dbo.Events
--- GO
-
-
 IF OBJECT_ID('dbo.SeasonReferees', 'U') IS NOT NULL
 DROP TABLE dbo.SeasonReferees
 GO
@@ -45,7 +40,9 @@ IF OBJECT_ID('dbo.Games', 'U') IS NOT NULL
 DROP TABLE dbo.Games
 GO
 
-
+IF OBJECT_ID('dbo.Teams', 'U') IS NOT NULL
+DROP TABLE dbo.Games
+GO
 
 
 

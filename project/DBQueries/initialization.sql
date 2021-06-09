@@ -5,13 +5,13 @@
 -- )
 -- VALUES
 -- ( -- first row: values for the columns in the list above
---  'galagas', 'gal', 'agasi', 'thePassword', 'galagas@post.bgu.ac.il'
--- ),
--- ( -- second row: values for the columns in the list above
 --  'guyzaid', 'guy', 'zaidmen', 'thePassword', 'guyzaid@post.bgu.ac.il'
 -- ),
--- ( -- third row: values for the columns in the list above
+-- ( -- second row: values for the columns in the list above
 --  'tomerkel', 'tomer', 'kelner', 'thePassword', 'tomerkel@post.bgu.ac.il'
+-- ),
+-- ( -- third row: values for the columns in the list above
+--  'galagas', 'gal', 'agasi', 'thePassword', 'galagas@post.bgu.ac.il'
 -- ),
 -- ( -- forth row: values for the columns in the list above
 --  'milver', 'jonatan', 'milver', 'thePassword', 'milver@post.bgu.ac.il'
@@ -41,7 +41,7 @@ VALUES
     4, 'International', 1
 ),
 ( -- second row: values for the columns in the list above
-    3, 'Master', 1
+    2, 'Master', 1
 )
 GO
 
@@ -86,4 +86,49 @@ VALUES
     2, 2
 )
 GO
+
+-- Insert rows into table 'Teams'
+INSERT INTO Teams
+( -- columns to insert data into
+ [teamName]
+)
+VALUES
+( -- first row: values for the columns in the list above
+ 'Hapoel Beer Sheva'
+),
+( -- second row: values for the columns in the list above
+ 'Macabbi BGU'
+),
+( -- second row: values for the columns in the list above
+ 'Beitar Jerusalem'
+),
+( -- second row: values for the columns in the list above
+ 'Macabbi Eilat'
+),
+( -- second row: values for the columns in the list above
+ 'Hapoel Haifa'
+)
+-- add more rows here
+GO
+
+
+-- Insert rows into table 'SeasonReferees'
+INSERT INTO SeasonReferees
+( -- columns to insert data into
+ [RefereeId], [SeasonId]
+)
+VALUES
+( -- first row: values for the columns in the list above
+ 1, 1
+),
+( -- second row: values for the columns in the list above
+ 1, 2
+),
+( -- third row: values for the columns in the list above
+ 2, 2
+)
+-- add more rows here
+GO
+
+
 
