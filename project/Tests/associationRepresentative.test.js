@@ -374,7 +374,7 @@ describe('Register Tests', function(){
             lastName:'test',
             email:'test@post.bgu.ac.il'
         })
-        expect(response.statusCode).toBe(400);
+        expect(response.statusCode).toBe(409);
         expect(response.text).toBe("User already exist");
     })
 
