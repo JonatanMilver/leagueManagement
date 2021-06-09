@@ -98,7 +98,6 @@ async function setGameSchedulingPolicy(seasonId, leagueId, policyId){
 
 }
 
-// setGameSchedulingPolicy(2,1,2)
 
 function setGameScoringPolicy(){
     // can set score policy
@@ -144,6 +143,9 @@ function addLeague(){
     // can add league to system
 }
 
+/*
+Get all the users that they are Association Representative
+*/
 async function getUsersFromAssRepTable(){
     return await associationRepresentativesUtils.getUsersFromAssRepTable();
 }
