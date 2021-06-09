@@ -2,16 +2,6 @@ const bcrypt = require("bcryptjs");
 const users_utils = require("../DataAccess/users_utils")
 
 async function logInUser(username, password){
-//     //need to check null here??
-//     const user = await axios.post(
-//         `http://localhost:3000/Login`,
-//         {
-//             username: username,
-//             password: password
-//         }
-//       );
-
-//     return user.data;
     const user = await users_utils.checkIfUserExist(username);
     if (!user || !bcrypt.compareSync(password, user.pswd)) {
         // throw { status: 401, message: "Username or Password incorrect" };
@@ -24,7 +14,7 @@ async function logInUser(username, password){
 async function registerUser(username, password, firstName, lastName, email){
     const user = await users_utils.checkIfUserExist(username);
     if (user){
-        throw { status: 400, message: "User already exist"};
+        throw { status: 409, message: "User already exist"};
     }
     //hash the password
     let hash_password = bcrypt.hashSync(
