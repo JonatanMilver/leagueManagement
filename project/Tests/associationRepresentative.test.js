@@ -4,6 +4,7 @@ require("dotenv").config();
 var farUser = request.agent(app);
 const ass_rep_utils = require('../DataAccess/associationRepresentativeUtils')
 const league_utils = require('../DataAccess/league_utils')
+const users_utils = require("../DataAccess/users_utils")
 
 jest.setTimeout(30000);
 
@@ -41,7 +42,7 @@ ass_rep_utils.checkIfTeamExist = jest.fn(async (team) => {
 })
 
 ass_rep_utils.checkIfRefExist = jest.fn(async (userId) => {
-    if(userId != 3){
+    if(userId != 3 && userId != 1){
         return true;    
     }
     return false;
@@ -61,10 +62,44 @@ league_utils.checkIfRefInSeason = jest.fn(async (refereeID, seasonID) => {
 ass_rep_utils.addRefereeToSeason = jest.fn(async (refereeID, seasonID) => {
     return true;
 })
+
+ass_rep_utils.insertReferee = jest.fn(async (userId, qualification, isHeadReferee)=>{
+    return true;
+})
+
+ass_rep_utils.addRefereeToSeason = jest.fn(async (refereeID, seasonID)=> {
+    return true;
+})
+
+users_utils.checkIfUserExist = jest.fn(async (username) => {
+    if(username == 'guyzaid'){
+        return {pswd: '$2a$04$Gj168.B2FWPGcWZ5/CCkwuv1AlWDwEkaxU03OJUkWiONV45ac0bna', userId: 1};
+    }
+    else if(username == 'tomerkel'){
+        return {pswd: '$2a$04$m.Bv/0dVXMorjj4m7XjxReN.v./jAIREtLWgqcVjj1ULSMYti5PVO', userId: 2}
+    }
+    else if(username == 'galagas'){
+        return {pswd: '$2a$04$rvsFu.5sIqIzMWuHF8MaO.LbLEJP4VomFqBl.4rCQ/f0F8w/UPxTK', userId: 2}
+    }
+    return false
+})
+
+users_utils.registerUser = jest.fn(async (username, hash_password, firstName, lastName, email) => {
+    return true;
+})
 //#endregion
 
 // **************************** TEST FUNCTIONS ****************************
-//#region 
+//#region
+
+describe('GET /test', function() {
+    test("test test test test", async () => {
+        // response = await request(app).get("/test");
+        response = await farUser.get("/test");
+        expect(response.statusCode).toBe(200);
+    })
+});
+
 describe('/associationrepresentative - middleware', function() {
     describe('User is not logged in', function() {
       
@@ -99,6 +134,7 @@ describe('/associationrepresentative - middleware', function() {
                 username: 'tomerkel',
                 password: 'tomerkel'
             });
+            // console.log(response)
             expect(response.statusCode).toBe(200);
         })
 
@@ -264,11 +300,10 @@ describe('POST /associationrepresentative/addReferee',function(){
     describe('Referee already exists', function(){
         test('', async () => {
             response = await farUser.post("/associationrepresentative/addReferee").send({
-                username:'guyzaid',
+                username:'galagas',
                 qualification:'international',
                 isHeadReferee:1
             })
-            // console.log(response)
             expect(response.statusCode).toBe(409);
             expect(response.text).toBe("Referee already exist")
         })
@@ -276,7 +311,7 @@ describe('POST /associationrepresentative/addReferee',function(){
     describe('Successful adding of referee', function(){
         test('', async () => {
             response = await farUser.post("/associationrepresentative/addReferee").send({
-                username:'galagas',
+                username:'guyzaid',
                 qualification:'international',
                 isHeadReferee:1
             })
@@ -318,4 +353,74 @@ describe('POST /associationrepresentative/addRefereeToSeason',function(){
         })
     })
 })
-//#endregion
+
+describe('Register Tests', function(){
+    test('Missing Arguments', async () => {
+        response = await farUser.post("/registerUser").send({
+            username:'test',
+            password:'test',
+            firstName:'test',
+            // lastName:'test',
+            email:'test'
+        })
+        expect(response.statusCode).toBe(400);
+        expect(response.text).toBe("Missing one or more parameters");
+    })
+
+    test('User already exists',  async () => {
+        response = await farUser.post("/registerUser").send({
+            username:'guyzaid',
+            password:'test',
+            firstName:'test',
+            lastName:'test',
+            email:'test'
+        })
+        expect(response.statusCode).toBe(400);
+        expect(response.text).toBe("User already exist");
+    })
+
+    test('successful register', async () => {
+        response = await farUser.post("/registerUser").send({
+            username:'test',
+            password:'test',
+            firstName:'test',
+            lastName:'test',
+            email:'test'
+        })
+        expect(response.statusCode).toBe(201);
+        expect(response.text).toBe("User created successfully");
+    })
+})
+
+describe('Login Tests', function(){
+    describe('POST /Login', function() {
+        test("Successful login", async () => {
+            // response = await request(app).post("/Login").send({
+            response = await farUser.post("/Login").send({
+                username: 'guyzaid',
+                password: 'guyzaid'
+            });
+            expect(response.statusCode).toBe(200);
+        })
+    
+        test("Unsuccessful login - username does not exist", async () => {
+            // response = await request(app).post("/Login").send({
+                response = await farUser.post("/Login").send({
+                username: 'guyaid',
+                password: 'guyzaid'
+            });
+            expect(response.statusCode).toBe(401);
+        })
+    
+        test("Unsuccessful login - missing parameters", async () => {
+            // response = await request(app).post("/Login").send({
+                response = await farUser.post("/Login").send({
+                // username: 'guyzaid',
+                password: 'guyzaid'
+            });
+            expect(response.statusCode).toBe(409);
+            expect(response.text).toBe("Missing arguments");
+        })
+    });
+})
+// #endregion
