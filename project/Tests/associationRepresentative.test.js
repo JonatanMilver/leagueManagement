@@ -167,9 +167,9 @@ describe('POST /associationrepresentative/setGamePolicy', function(){
     
             test("Set game policy attempt - missing args", async () => {
                 response = await farUser.post("/associationrepresentative/setGamePolicy").send({
-                    seasonId:'',
-                    leagueId:'',
-                    gamePolicyId: ''
+                    seasonId:2,
+                    // leagueId:'',
+                    gamePolicyId: 1
                 });
                 expect(response.statusCode).toBe(406);
                 expect(response.text).toBe("Missing arguments");
@@ -215,30 +215,28 @@ describe('POST /associationrepresentative/setGamePolicy', function(){
     })
 })
 
-describe('POST /associationrepresentative/addGame', function() {
-    describe('Permissions', function(){    
-        describe('With permissions', function() {
-            test("login - permited user", async () => {
-                response = await farUser.post("/Login").send({
-                    username: 'guyzaid',
-                    password: 'guyzaid'
-                });
-                expect(response.statusCode).toBe(200);
-            })
-    
-            test("Add game attempt Successful", async () => {
-                response = await farUser.post("/associationrepresentative/addGame").send({
-                    homeTeam : 1,
-                    awayTeam : 3,
-                    gameDateTime : "02/03/2021 19:30",
-                    field : "BS",
-                    refereeId : 3,
-                    seasonId : 2,
-                    leagueId : 1
-                });
-                expect(response.statusCode).toBe(201);
-                expect(response.text).toBe("Game has been succefully added.");
-            })
+describe('POST /associationrepresentative/addGame', function() {   
+    describe('Successful adding game', function() {
+        test("login - permited user", async () => {
+            response = await farUser.post("/Login").send({
+                username: 'guyzaid',
+                password: 'guyzaid'
+            });
+            expect(response.statusCode).toBe(200);
+        })
+
+        test("Add game attempt Successful", async () => {
+            response = await farUser.post("/associationrepresentative/addGame").send({
+                homeTeam : 1,
+                awayTeam : 3,
+                gameDateTime : "02/03/2021 19:30",
+                field : "BS",
+                refereeId : 3,
+                seasonId : 2,
+                leagueId : 1
+            });
+            expect(response.statusCode).toBe(201);
+            expect(response.text).toBe("Game has been succefully added.");
         })
     })
     describe('Policy', function(){
@@ -289,9 +287,9 @@ describe('POST /associationrepresentative/addReferee',function(){
     describe('Missing arguments',function(){
         test('No quaification', async () => {
             response = await farUser.post("/associationrepresentative/addReferee").send({
-                username:'',
+                username:'guyzaid',
                 // qualification:'',
-                isHeadReferee:''
+                isHeadReferee:true
             });
             expect(response.statusCode).toBe(400);
             expect(response.text).toBe("Missing one or more parameters")
@@ -302,7 +300,7 @@ describe('POST /associationrepresentative/addReferee',function(){
             response = await farUser.post("/associationrepresentative/addReferee").send({
                 username:'galagas',
                 qualification:'international',
-                isHeadReferee:1
+                isHeadReferee:true
             })
             expect(response.statusCode).toBe(409);
             expect(response.text).toBe("Referee already exist")
@@ -313,7 +311,7 @@ describe('POST /associationrepresentative/addReferee',function(){
             response = await farUser.post("/associationrepresentative/addReferee").send({
                 username:'guyzaid',
                 qualification:'international',
-                isHeadReferee:1
+                isHeadReferee:true
             })
             expect(response.statusCode).toBe(201);
         })
@@ -324,13 +322,14 @@ describe('POST /associationrepresentative/addRefereeToSeason',function(){
     describe('Missing arguments',function(){
         test('No seasonID', async () => {
             response = await farUser.post("/associationrepresentative/addRefereeToSeason").send({
-                refereeID:'',
+                refereeID:5,
                 // seasonID:''
             });
             expect(response.statusCode).toBe(400);
             expect(response.text).toBe("Missing one or more parameters")
         })
     })
+
     describe('Referee already in season',function(){
         test('', async () => {
             response = await farUser.post("/associationrepresentative/addRefereeToSeason").send({
@@ -341,7 +340,7 @@ describe('POST /associationrepresentative/addRefereeToSeason',function(){
             expect(response.text).toBe("The referee already in this season")
         })
     })
-    
+
     describe('Successful adding of referee to season', function(){
         test('', async () => {
             response = await farUser.post("/associationrepresentative/addRefereeToSeason").send({
@@ -355,17 +354,17 @@ describe('POST /associationrepresentative/addRefereeToSeason',function(){
 })
 
 describe('Register Tests', function(){
-    test('Missing Arguments', async () => {
-        response = await farUser.post("/registerUser").send({
-            username:'test',
-            password:'test',
-            firstName:'test',
-            // lastName:'test',
-            email:'test'
-        })
-        expect(response.statusCode).toBe(400);
-        expect(response.text).toBe("Missing one or more parameters");
-    })
+    // test('Missing Arguments', async () => {
+    //     response = await farUser.post("/registerUser").send({
+    //         username:'test',
+    //         password:'test',
+    //         firstName:'test',
+    //         // lastName:'test',
+    //         email:'test'
+    //     })
+    //     expect(response.statusCode).toBe(400);
+    //     expect(response.text).toBe("Missing one or more parameters");
+    // })
 
     test('User already exists',  async () => {
         response = await farUser.post("/registerUser").send({
@@ -373,7 +372,7 @@ describe('Register Tests', function(){
             password:'test',
             firstName:'test',
             lastName:'test',
-            email:'test'
+            email:'test@post.bgu.ac.il'
         })
         expect(response.statusCode).toBe(400);
         expect(response.text).toBe("User already exist");
@@ -385,7 +384,7 @@ describe('Register Tests', function(){
             password:'test',
             firstName:'test',
             lastName:'test',
-            email:'test'
+            email:'test@post.bgu.ac.il'
         })
         expect(response.statusCode).toBe(201);
         expect(response.text).toBe("User created successfully");
