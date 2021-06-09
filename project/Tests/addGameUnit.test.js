@@ -5,7 +5,7 @@ require("dotenv").config();
 const successGame =     {
     homeTeam : 1,
     awayTeam : 3,
-    gameDateTime : "02/03/2021 19:30",
+    gameDateTime : "07/13/2021 20:30",
     field : "BS",
     refereeId : 3,
     seasonId : 1,
@@ -21,6 +21,7 @@ const failGame =     {
     seasonId : 2,
     leagueId : 1
 }
+
 
 
 ar_utils.checkGamePolicy = jest.fn(async (seasonId, leagueId) => {

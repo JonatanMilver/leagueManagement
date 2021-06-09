@@ -1,5 +1,6 @@
 const user = require("../Domain/user")
 const userUtils = require("../DataAccess/users_utils")
+require("dotenv").config();
 
 const usersPswds = [
     {
@@ -24,7 +25,6 @@ for(const usern of usernames){
             return res
         });
         expect(usernames.includes(response.username)).toBe(true);
-        // expect(response.body.message).toBe("No game policy for this season or game doesn't stand by policy.");
     })
 }
 
@@ -35,7 +35,6 @@ for(const userPswd of usersPswds){
             return res
         });
         expect(usernames.includes(response.username)).toBe(true);
-        // expect(response.body.message).toBe("No game policy for this season or game doesn't stand by policy.");
     })
 }
 

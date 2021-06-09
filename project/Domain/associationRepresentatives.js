@@ -11,7 +11,6 @@ const ap_utils = require("../DataAccess/associationRepresentativeUtils");
 game policies 
 1 - each team plays only one match versus each other team. 
 2 - each team plays two game vs each other team, home and away.
-3 -
 */
 
 /*
@@ -21,6 +20,10 @@ it includes the functions of checkGameAddition of this file,
 checkGamePolicy and addGame from Data Access layer.
 */
 async function addGame(homeTeam, awayTeam, gameDateTime, field, refereeId, leagueId, seasonId){
+    if((typeof homeTeam) != 'number' || (typeof awayTeam) != 'number' || isNaN(Date.parse(gameDateTime)) 
+    || (typeof field) != 'string' || (typeof refereeId) != 'number' || (typeof seasonId) != 'number'){
+        return false;
+    }
     //Association Representative can add game
     const checkPolicy = await ap_utils.checkGamePolicy(seasonId, leagueId);
     if(!checkPolicy)
