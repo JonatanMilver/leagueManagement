@@ -60,7 +60,10 @@ ar_utils.checkTwoGamePolicy = jest.fn(async (homeTeam, awayTeam, seasonId) => {
 })
 
 
-// unit test
+
+//////////////////////////////UNIT/////////////////////
+
+// unit test 20.5
 test("unit test - checkIfTeamExist function", async () => {
     const response = await ar_utils.checkIfTeamExist(successGame.homeTeam).then(res => {
             return res;
@@ -68,7 +71,7 @@ test("unit test - checkIfTeamExist function", async () => {
     expect(response).toBe(true);
 })
 
-// unit test
+// unit test 20.6
 test("unit test - checkIfTeamExist function", async () => {
     const response = await ar_utils.checkIfTeamExist(failGame.homeTeam).then(res => {
             return res;
@@ -77,9 +80,9 @@ test("unit test - checkIfTeamExist function", async () => {
 })
 
 
+///////////////////////INTEGRATION//////////////////////////////////////////////////
 
-
-//integration test! 
+//integration test! 20.7
 test("integration test - checkGameAddition function", async () => {
     const response = await ar.checkGameAddition(successGame.homeTeam, successGame.awayTeam, {GamePolicyId:1}, successGame.seasonId).then(res => {
             return res;
@@ -87,7 +90,7 @@ test("integration test - checkGameAddition function", async () => {
     expect(response).toBe(true);
 })
 
-//integration test
+//integration test 20.8
 test("integration test - checkGameAddition function", async () => {
     const response = await ar.checkGameAddition(failGame.homeTeam, failGame.awayTeam, 3, failGame.seasonId).then(res => {
             return res;
@@ -97,7 +100,7 @@ test("integration test - checkGameAddition function", async () => {
 
 
 
-// integration test
+// integration test 20.9
 test("Successful game addition", async () => {
     const response = await ar.addGame(successGame.homeTeam, successGame.awayTeam, successGame.gameDateTime,
         successGame.field, successGame.refereeId, successGame.leagueId, successGame.seasonId).then(res => {
@@ -107,7 +110,7 @@ test("Successful game addition", async () => {
 })
 
 
-// integration test
+// integration test 20.10
 test("Unsuccessful addition - home team is not in the system.", async () => {
     const response = await ar.addGame(failGame.homeTeam, failGame.awayTeam, failGame.gameDateTime,
         failGame.field, failGame.refereeId, failGame.leagueId, failGame.seasonId).then(res => {

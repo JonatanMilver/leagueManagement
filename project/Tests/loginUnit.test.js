@@ -19,6 +19,9 @@ const usersPswds = [
 
 const usernames = ["guyzaid", "galagas", "tomerkel", "milver"]
 
+////////////////////////UNIT////////////////////////////////////
+
+//unit test 4.4-4.7
 for(const usern of usernames){
     test("Successful user retrieval from database", async () => {
         const response = await userUtils.checkIfUserExist(usern).then(res => {
@@ -28,7 +31,8 @@ for(const usern of usernames){
     })
 }
 
-
+//////////////////////INTEGRATION//////////////////////////
+//integration test 4.8-4.11
 for(const userPswd of usersPswds){
     test("Login Successful", async () => {
         const response = await user.logInUser(userPswd.username, userPswd.password).then(res => {
