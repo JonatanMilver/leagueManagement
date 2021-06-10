@@ -132,7 +132,6 @@ describe('/associationrepresentative - middleware', function() {
                 username: 'tomerkel',
                 password: 'tomerkel'
             });
-            // console.log(response)
             expect(response.statusCode).toBe(200);
         })
 
